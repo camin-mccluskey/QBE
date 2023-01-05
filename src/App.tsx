@@ -1,3 +1,4 @@
+import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -21,4 +22,4 @@ const App: React.FC = () => {
   }
 }
 
-export default App;
+registerRootComponent(App);
