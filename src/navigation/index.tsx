@@ -14,8 +14,9 @@ import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
 import ModalScreen from '../screens/ModalScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
-import TabOneScreen from '../screens/TabOneScreen'
-import TabTwoScreen from '../screens/TabTwoScreen'
+import QuestionsScreen from '../screens/QuestionsScreen'
+import StatsScreen from '../screens/StatsScreen'
+import NewQuestionScreen from '../screens/NewQuestionScreen'
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types'
 import LinkingConfiguration from './LinkingConfiguration'
 
@@ -59,16 +60,16 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName='TabOne'
+      initialRouteName='Questions'
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
     >
       <BottomTab.Screen
-        name='TabOne'
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
+        name='Questions'
+        component={QuestionsScreen}
+        options={({ navigation }: RootTabScreenProps<'Questions'>) => ({
+          title: 'Questions',
           tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
           headerRight: () => (
             <Pressable
@@ -88,10 +89,18 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name='TabTwo'
-        component={TabTwoScreen}
+        name='NewQuestion'
+        component={NewQuestionScreen}
         options={{
-          title: 'Tab Two',
+          title: 'New Question',
+          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name='Stats'
+        component={StatsScreen}
+        options={{
+          title: 'Stats',
           tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
         }}
       />
