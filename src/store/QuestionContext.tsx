@@ -1,17 +1,20 @@
 import { createContext, useContext, useReducer } from 'react';
 
 type QuestionProviderProps = { children: React.ReactNode };
-type Action = { type: 'CREATED_QUESTION'; payload: Question } | { type: 'DELETED_QUESTION'; payload: Question };
+type Action = { type: 'CREATED_QUESTION'; payload: Question } | { type: 'DELETED_QUESTION'; payload: Question } | { type: 'EDITED_QUESTION'; payload: Question };
 type Dispatch = (action: Action) => void;
 type State = Question[];
 
-// todo - solidify type
 type Question = {
   id: string;
   title: string;
-  // todo - add type
-  schedule: any;
+  schedule: QuestionSchedule;
 };
+
+type QuestionSchedule = {
+  days: number[];
+  time: Date;
+}
 
 const QuestionsContext = createContext<State | undefined>(undefined);
 const QuestionsDispatchContext = createContext<Dispatch | undefined>(undefined);
@@ -52,6 +55,13 @@ function questionsReducer(state: State, action: Action) {
       return [...state, action.payload];
     case 'DELETED_QUESTION':
       return state.filter((question) => question.id !== action.payload.id);
+    case 'EDITED_QUESTION':
+      return state.map((question) => {
+        if (question.id === action.payload.id) {
+          return action.payload;
+        }
+        return question;
+      });
     default:
       return state;
   }
