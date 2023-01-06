@@ -1,27 +1,11 @@
-import { useState } from 'react';
-import { Button, StyleSheet, TextInput } from 'react-native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { StyleSheet, TextInput } from 'react-native';
+import DatetimePicker from '../components/DatetimePicker';
 import { Text, View } from '../components/Themed';
 
 
 
 
 export default function NewQuestionScreen() {
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date: Date) => {
-    console.warn('A date has been picked: ', date);
-    hideDatePicker();
-  };
-
   const example = 'create content today'
   return (
     <View style={styles.container}>
@@ -32,25 +16,7 @@ export default function NewQuestionScreen() {
       </View>
       <View style={{alignItems: 'center'}}>
         <Text>Ask me this question</Text>
-        <View style={styles.daySelectionContainer}>
-          <View style={styles.daySelection}/>
-          <View style={styles.daySelection}/>
-          <View style={styles.daySelection}/>
-          <View style={styles.daySelection}/>
-          <View style={styles.daySelection}/>
-          <View style={styles.daySelection}/>
-          <View style={styles.daySelection}/>
-        </View>
-        <View>
-          <Button title="Show Date Picker" onPress={showDatePicker} />
-          <DateTimePickerModal 
-            isVisible={isDatePickerVisible}
-            mode="time"
-            date={new Date()}
-            onCancel={hideDatePicker}
-            onConfirm={handleConfirm}
-          />
-        </View>
+        <DatetimePicker />
       </View>
     </View>
   )
