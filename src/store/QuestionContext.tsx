@@ -32,7 +32,7 @@ export function QuestionContextProvider({ children }: QuestionProviderProps) {
 export function useQuestions() {
   const context = useContext(QuestionsContext);
   if (context === undefined) {
-    throw new Error('useQuestions must be used within a QuestionProvider');
+    throw new Error('useQuestions must be used within a QuestionContextProvider');
   }
   return context;
 }
@@ -41,7 +41,7 @@ export function useQuestions() {
 export function useQuestionsDispatch() {
   const context = useContext(QuestionsDispatchContext);
   if (context === undefined) {
-    throw new Error('useQuestionsDispatch must be used within a QuestionProvider');
+    throw new Error('useQuestionsDispatch must be used within a QuestionContextProvider');
   }
   return context;
 }
@@ -57,4 +57,4 @@ function questionsReducer(state: State, action: Action) {
   }
 }
 
-const initialQuestions: Question[] = [];
+const initialQuestions: State = [];
