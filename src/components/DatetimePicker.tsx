@@ -1,20 +1,41 @@
 import { useState } from 'react';
-import { Button, StyleSheet, View, Text } from 'react-native';
+import { Button, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { QuestionSchedule } from '../store/QuestionContext';
 
-const DatetimePicker: React.FC = () => {
+type DatetimePickerProps = {
+  questionSchedule: QuestionSchedule | undefined;
+  onEditQuestionSchedule: (questionSchedule: QuestionSchedule) => void;
+}
+
+const DatetimePicker = ({ questionSchedule, onEditQuestionSchedule }: DatetimePickerProps) => {
+  const days = questionSchedule?.days || [];
+  const time = questionSchedule?.time || new Date();
+
+  const onEditDays = (selectedDays: number[]) => {
+    onEditQuestionSchedule({
+      days: selectedDays,
+      time,
+    })
+  }
+
+  const onEditDatetime = (newDatetime: Date) => {
+    onEditQuestionSchedule({
+      days,
+      time: newDatetime,
+    })
+  }
+
   return (
-    <>
-    <DayPicker />
-    <TimePicker />
-    </>
+    <View style={{paddingTop: 10}}>
+    <DayPicker days={days} onEditDays={onEditDays} />
+    <TimePicker time={time} onEditDatetime={onEditDatetime} />
+    </View>
   );
 }
 
-const DayPicker = () => {
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-
-  const days = {
+const DayPicker = ({ days, onEditDays }: { days: number[], onEditDays: (selectedDays: number[]) => void }) => {
+  const dayMap = {
     0: 'M',
     1: 'T',
     2: 'W',
@@ -24,24 +45,27 @@ const DayPicker = () => {
     6: 'S',
   }
 
+  const onPressDay = (dayMapKey: number) => {
+    if (days.includes(dayMapKey)) {
+      onEditDays(days.filter((selectedDay) => selectedDay !== dayMapKey));
+    } else {
+      onEditDays([...days, dayMapKey]);
+    }
+  }
+
   return (
     <View style={styles.daySelectionContainer}>
       {
-        Object.entries(days).map(([key, dayLetter]) => {
+        Object.entries(dayMap).map(([k, dayLetter]) => {
+          const key = parseInt(k);
           return (
-            <View 
-              onTouchEnd={() => {
-                if (selectedDays.includes(key)) {
-                  setSelectedDays(selectedDays.filter((selectedDay) => selectedDay !== key))
-                } else {
-                  setSelectedDays([...selectedDays, key])
-                }
-              }}
+            <TouchableOpacity 
+              onPress={() => onPressDay(key)}
               key={key}
-              style={[styles.daySelection, selectedDays.includes(key) ? {backgroundColor: 'blue'} : {backgroundColor: 'gray'}]}
+              style={[styles.daySelection, days.includes(key) ? {backgroundColor: 'blue'} : {backgroundColor: 'gray'}]}
             >
-              <Text>{dayLetter}</Text>
-            </View>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>{dayLetter}</Text>
+            </TouchableOpacity>
           )
         })
       }
@@ -49,11 +73,10 @@ const DayPicker = () => {
   );
 }
 
-const TimePicker = () => {
-  const [time, setTime] = useState<Date>(new Date());
+const TimePicker = ({ time, onEditDatetime }: { time: Date, onEditDatetime: (newDatetime: Date) => void }) => {
   const [isTimePickerVisible, setTimePickerVisible] = useState(false);
 
-  const btnTitle = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const btnTitle = `at ${time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 
   const showDatePicker = () => {
     setTimePickerVisible(true);
@@ -64,7 +87,7 @@ const TimePicker = () => {
   };
 
   const handleConfirm = (date: Date) => {
-    setTime(date);
+    onEditDatetime(date);
     hideDatePicker();
   };
   
@@ -75,7 +98,7 @@ const TimePicker = () => {
       <DateTimePickerModal 
         isVisible={isTimePickerVisible}
         mode="time"
-        date={new Date()}
+        date={time}
         onCancel={hideDatePicker}
         onConfirm={handleConfirm}
       />
@@ -85,8 +108,8 @@ const TimePicker = () => {
 
 const styles = StyleSheet.create({
   daySelection: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
     backgroundColor: 'gray',
     borderRadius: 5,
     justifyContent: 'center',
@@ -95,7 +118,8 @@ const styles = StyleSheet.create({
   daySelectionContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '75%',
+    width: '80%',
+    padding: 5,
   }
 })
 
