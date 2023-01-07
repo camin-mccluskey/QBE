@@ -1,7 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, TouchableHighlight } from 'react-native';
 
 import { Text, View } from '../components/Themed';
+import { DAYMAP } from '../constants/DayMap';
 import { Question } from '../store/QuestionContext';
 
 type ListQuestionProps = {
@@ -9,24 +11,45 @@ type ListQuestionProps = {
 }
 
 export function ListQuestion( { question }: ListQuestionProps ) {
+  const { title, schedule } = question;
+  const { days } = schedule;
+  const navigation = useNavigation();
+
+  const activeDays = Object.entries(DAYMAP).map(([k, dayLetter]) => {
+    const key = parseInt(k);
+    return (
+      <View
+        key={key}
+        style={{
+          height: 20, width: 20, borderRadius: 3, 
+          padding: 2, margin: 3,
+          backgroundColor: days.includes(key) ? 'blue' : 'gray',
+          justifyContent: 'center', alignItems: 'center'
+        }}
+      >
+        <Text>{dayLetter}</Text>
+      </View>
+      )
+  });  
+
   return (
-      <TouchableHighlight onPress={() => alert(`You clicked on ${question.title}`)}>
+      <TouchableHighlight onPress={() => navigation.navigate('QuestionModal')}>
         <View style={styles.listItem}>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.streakContainer}>
-              <Text>🔥</Text>
-              <Text>6</Text>
+              <Text style={{fontSize: 16, paddingBottom: 5}}>🔥</Text>
+              <Text style={{fontSize: 16}}>6</Text>
             </View>
             <View>
-              <Text style={styles.text}>{question.title}</Text>
-              <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                <View style={{backgroundColor: 'white', height: 10, width: 10}}/>
-                <View style={{backgroundColor: 'white', height: 10, width: 10}}/>
-                <View style={{backgroundColor: 'white', height: 10, width: 10}}/>
+              <Text style={styles.title}>{title}</Text>
+              <View style={{flexDirection: 'row'}}>
+                {activeDays}
               </View>
             </View>
           </View>
-          <Text>2d 14hrs</Text>
+          {/* <View style={{justifyContent: 'center'}}>
+            <Text>2d 14hrs</Text>
+          </View> */}
         </View>
       </TouchableHighlight>
   )
@@ -45,20 +68,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    height: 65,
+    height: 75,
     width: '100%',
-    backgroundColor: 'gray',
     marginVertical: 8,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'darkgray',
+    shadowColor: 'gray',
   },
-  text: {
+  title: {
     fontSize: 18,
+    paddingBottom: 4,
     color: 'white',
+    fontWeight: '600',
   },
   streakContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'gray',
     paddingRight: 10,
   }
 });

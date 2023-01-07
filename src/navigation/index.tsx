@@ -12,9 +12,9 @@ import { ColorSchemeName } from 'react-native'
 
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
-import ModalScreen from '../screens/ModalScreen'
 import NewQuestionScreen from '../screens/NewQuestionScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
+import QuestionModalScreen from '../screens/QuestionModalScreen'
 import QuestionsScreen from '../screens/QuestionsScreen'
 import StatsScreen from '../screens/StatsScreen'
 import { RootStackParamList, RootTabParamList } from '../types'
@@ -43,7 +43,7 @@ function RootNavigator() {
       <Stack.Screen name='Root' component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name='Modal' component={ModalScreen} />
+        <Stack.Screen name='QuestionModal' component={QuestionModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   )

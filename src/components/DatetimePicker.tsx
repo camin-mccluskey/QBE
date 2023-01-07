@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { DAYMAP } from '../constants/DayMap';
 import { QuestionSchedule } from '../store/QuestionContext';
 
 type DatetimePickerProps = {
@@ -35,15 +36,6 @@ const DatetimePicker = ({ questionSchedule, onEditQuestionSchedule }: DatetimePi
 }
 
 const DayPicker = ({ days, onEditDays }: { days: number[], onEditDays: (selectedDays: number[]) => void }) => {
-  const dayMap = {
-    0: 'M',
-    1: 'T',
-    2: 'W',
-    3: 'T',
-    4: 'F',
-    5: 'S',
-    6: 'S',
-  }
 
   const onPressDay = (dayMapKey: number) => {
     if (days.includes(dayMapKey)) {
@@ -56,7 +48,7 @@ const DayPicker = ({ days, onEditDays }: { days: number[], onEditDays: (selected
   return (
     <View style={styles.daySelectionContainer}>
       {
-        Object.entries(dayMap).map(([k, dayLetter]) => {
+        Object.entries(DAYMAP).map(([k, dayLetter]) => {
           const key = parseInt(k);
           return (
             <TouchableOpacity 
@@ -110,7 +102,6 @@ const styles = StyleSheet.create({
   daySelection: {
     width: 35,
     height: 35,
-    backgroundColor: 'gray',
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
