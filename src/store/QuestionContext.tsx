@@ -1,9 +1,9 @@
 import { createContext, useContext, useReducer } from 'react';
 
 type QuestionProviderProps = { children: React.ReactNode };
-type Action = { type: 'CREATED_OR_EDITED_QUESTION'; payload: Question } | { type: 'DELETED_QUESTION'; payload: Question };
-type Dispatch = (action: Action) => void;
-type State = Question[];
+type QuestionAction = { type: 'CREATED_OR_EDITED_QUESTION'; payload: Question } | { type: 'DELETED_QUESTION'; payload: Question };
+type QuestionDispatch = (action: QuestionAction) => void;
+type QuestionState = Question[];
 
 export type Question = {
   id: string;
@@ -16,8 +16,8 @@ export type QuestionSchedule = {
   time: Date;
 }
 
-const QuestionsContext = createContext<State | undefined>(undefined);
-const QuestionsDispatchContext = createContext<Dispatch | undefined>(undefined);
+const QuestionsContext = createContext<QuestionState | undefined>(undefined);
+const QuestionsDispatchContext = createContext<QuestionDispatch | undefined>(undefined);
 
 export function QuestionContextProvider({ children }: QuestionProviderProps) {
   const [questions, dispatch] = useReducer(questionsReducer, initialQuestions);
@@ -49,7 +49,7 @@ export function useQuestionsDispatch() {
   return context;
 }
 
-function questionsReducer(state: State, action: Action) {
+function questionsReducer(state: QuestionState, action: QuestionAction) {
   switch (action.type) {
     case 'CREATED_OR_EDITED_QUESTION': {
       const questionExists = state.some((question) => question.id === action.payload.id);
@@ -70,7 +70,7 @@ function questionsReducer(state: State, action: Action) {
   }
 }
 
-const initialQuestions: State = [
+const initialQuestions: QuestionState = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'Will you work out today?',
@@ -82,6 +82,14 @@ const initialQuestions: State = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv',
     title: 'Will you create content today?',
+    schedule: {
+      days: [0, 2, 4, 6],
+      time: new Date('2020-12-01T12:00:00.000Z'),
+    }
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bdfa',
+    title: 'Will you create music today?',
     schedule: {
       days: [0, 2, 4, 6],
       time: new Date('2020-12-01T12:00:00.000Z'),

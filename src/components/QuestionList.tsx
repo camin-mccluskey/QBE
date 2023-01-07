@@ -1,5 +1,6 @@
 import Constants from 'expo-constants';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../components/Themed';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { useQuestions, useQuestionsDispatch } from '../store/QuestionContext';
 import { ListQuestion, ListQuestionDelete } from './ListQuestion';
