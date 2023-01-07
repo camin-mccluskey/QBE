@@ -4,6 +4,7 @@ import { Text } from '../components/Themed';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { useQuestions, useQuestionsDispatch } from '../store/QuestionContext';
 import { ListQuestion, ListQuestionDelete } from './ListQuestion';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function QuestionList() {
   const questions = useQuestions();
@@ -15,7 +16,7 @@ export default function QuestionList() {
       type: LayoutAnimation.Types.easeInEaseOut, 
     },
     delete: {
-      duration: 100,
+      duration: 250,
       type: LayoutAnimation.Types.easeInEaseOut,
       property: LayoutAnimation.Properties.opacity,
     },
@@ -31,7 +32,12 @@ export default function QuestionList() {
 
   return (
     <View style={styles.container}>
-      {questions.length === 0 && <Text>No questions yet</Text>}
+      {questions.length === 0 && (
+        <View style={{height: '100%', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 22}}>add a question</Text>
+          <Ionicons name="ios-add-circle-outline" size={50} color="white" />
+        </View>
+      )}
       <SwipeListView
         useFlatList={true}
         data={questions}

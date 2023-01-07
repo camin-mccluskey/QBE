@@ -7,8 +7,12 @@ import { Question, QuestionSchedule, useQuestionsDispatch } from '../store/Quest
 import DatetimePicker from './DatetimePicker';
 import Toast from 'react-native-root-toast';
 
-export default function QuestionCreator() {
-  const [draftQuestion, setDraftQuestion] = useState<Question | null>(null)
+type QuestionCreatorProps = {
+  question?: Question;
+}
+
+export default function QuestionCreator({ question }: QuestionCreatorProps) {
+  const [draftQuestion, setDraftQuestion] = useState<Question | undefined>(question)
   const [placeholder, setPlaceholder] = useState<string>('')
   const isFocused = useIsFocused();
   const dispatch = useQuestionsDispatch()
@@ -16,8 +20,11 @@ export default function QuestionCreator() {
   const questionInvalid = draftQuestion?.title === '' || draftQuestion?.schedule === null;
   
   useEffect(() => {
-    setDraftQuestion(genNewDraftQuestion());
-    setPlaceholder(getExamplePlaceholder());
+    console.log(draftQuestion?.title)
+    if (!draftQuestion) {
+      setDraftQuestion(genNewDraftQuestion());
+      setPlaceholder(getExamplePlaceholder());
+    }
   }, [])
 
   useEffect(() => {
@@ -25,8 +32,7 @@ export default function QuestionCreator() {
     if (questionInvalid) {
       dispatch({ type: 'DELETED_QUESTION', payload: draftQuestion });
     } else {
-      const fullQuestionTitle = `Will you ${draftQuestion.title}?`
-      dispatch({ type: 'CREATED_OR_EDITED_QUESTION', payload: {...draftQuestion, title: fullQuestionTitle}});
+      dispatch({ type: 'CREATED_OR_EDITED_QUESTION', payload: draftQuestion});
     }
   }, [draftQuestion]);
 
@@ -36,8 +42,8 @@ export default function QuestionCreator() {
       if (!questionInvalid) {
         Toast.show('question saved', { duration: Toast.durations.SHORT, position: 60 })
       }
+      setDraftQuestion(genNewDraftQuestion());
     }
-    setDraftQuestion(genNewDraftQuestion());
   }, [isFocused]);
 
   const editQuestionTitle = (title: string) => {
@@ -76,6 +82,7 @@ export default function QuestionCreator() {
 }
 
 function genNewDraftQuestion(): Question {
+  console.log('generating new draft question')
   return {
     id: useUuid(),
     title: '',

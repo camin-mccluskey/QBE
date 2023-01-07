@@ -39,7 +39,7 @@ export function ListQuestion( { question }: ListQuestionProps ) {
           <View style={{flexDirection: 'row'}}>
             <StreakDisplay fontSize={16} streak={6}/>
             <View>
-              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.title}>Will you {title}?</Text>
               <View style={{flexDirection: 'row'}}>
                 {activeDays}
               </View>

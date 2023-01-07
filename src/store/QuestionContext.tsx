@@ -78,7 +78,7 @@ function questionsReducer(state: QuestionState, action: QuestionAction) {
 const initialQuestions: QuestionState = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Will you work out today?',
+    title: 'work out today',
     schedule: {
       days: [0, 1, 2, 3, 4, 5, 6],
       time: new Date('2020-12-01T12:00:00.000Z'),
@@ -86,7 +86,7 @@ const initialQuestions: QuestionState = [
   },
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv',
-    title: 'Will you create content today?',
+    title: 'create content today',
     schedule: {
       days: [0, 2, 4, 6],
       time: new Date('2020-12-01T12:00:00.000Z'),
@@ -94,7 +94,7 @@ const initialQuestions: QuestionState = [
   },
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bdfa',
-    title: 'Will you create music today?',
+    title: 'create music',
     schedule: {
       days: [0, 2, 4, 6],
       time: new Date('2020-12-01T12:00:00.000Z'),
