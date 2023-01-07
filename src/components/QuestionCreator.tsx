@@ -35,8 +35,8 @@ export default function QuestionCreator() {
       if (!questionInvalid) {
         Toast.show('question saved', { duration: Toast.durations.SHORT, position: 60 })
       }
-      setDraftQuestion(genNewDraftQuestion());
     }
+    setDraftQuestion(genNewDraftQuestion());
   }, [isFocused]);
 
   const editQuestionTitle = (title: string) => {

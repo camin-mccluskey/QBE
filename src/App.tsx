@@ -7,6 +7,7 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+import { QuestionContextProvider } from './store/QuestionContext';
 
 const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
@@ -16,12 +17,14 @@ const App: React.FC = () => {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
+      <QuestionContextProvider>
         <RootSiblingParent>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
+          <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </SafeAreaProvider>
         </RootSiblingParent>
-      </SafeAreaProvider>
+      </QuestionContextProvider>
     );
   }
 }
