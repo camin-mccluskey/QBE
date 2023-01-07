@@ -25,6 +25,7 @@ export default function QuestionList() {
         keyExtractor={item => item.id}
         renderItem={({ item }) => <ListQuestion question={item} /> }
         renderHiddenItem={() => <ListQuestionDelete /> }
+        recalculateHiddenLayout
         disableRightSwipe
         friction={10}
         useAnimatedList
