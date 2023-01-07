@@ -40,6 +40,11 @@ export function useQuestions() {
   return context;
 }
 
+export function useQuestion(id: string) {
+  const questions = useQuestions();
+  return questions.find((question) => question.id === id);
+}
+
 // hook to access the questions dispatch
 export function useQuestionsDispatch() {
   const context = useContext(QuestionsDispatchContext);

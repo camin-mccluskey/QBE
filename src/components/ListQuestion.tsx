@@ -5,6 +5,7 @@ import { StyleSheet, TouchableHighlight } from 'react-native';
 import { Text, View } from '../components/Themed';
 import { DAYMAP } from '../constants/DayMap';
 import { Question } from '../store/QuestionContext';
+import StreakDisplay from './StreakDisplay';
 
 type ListQuestionProps = {
   question: Question
@@ -33,13 +34,10 @@ export function ListQuestion( { question }: ListQuestionProps ) {
   });  
 
   return (
-      <TouchableHighlight onPress={() => navigation.navigate('QuestionModal')}>
+      <TouchableHighlight onPress={() => navigation.navigate('QuestionModal', { questionId: question.id})}>
         <View style={styles.listItem}>
           <View style={{flexDirection: 'row'}}>
-            <View style={styles.streakContainer}>
-              <Text style={{fontSize: 16, paddingBottom: 5}}>🔥</Text>
-              <Text style={{fontSize: 16}}>6</Text>
-            </View>
+            <StreakDisplay fontSize={16} streak={6}/>
             <View>
               <Text style={styles.title}>{title}</Text>
               <View style={{flexDirection: 'row'}}>
@@ -82,9 +80,4 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
   },
-  streakContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingRight: 10,
-  }
 });
