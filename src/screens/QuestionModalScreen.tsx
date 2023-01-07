@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
 import { Button, Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import StreakDisplay from '../components/StreakDisplay'
@@ -6,11 +7,14 @@ import { useQuestion } from '../store/QuestionContext'
 import { RootStackScreenProps } from '../types'
 
 
-export default function QuestionModalScreen({ route }: RootStackScreenProps<'QuestionModal'> ) {
+export default function QuestionModalScreen({ route }: RootStackScreenProps<'QuestionModal'>) {
   const question = useQuestion(route.params.questionId);
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.editIconContainer}>
+        <Ionicons name="pencil-outline" size={24} style={styles.editIcon} />
+      </TouchableOpacity>
       <StreakDisplay fontSize={50} streak={5} />
       <Text style={styles.titleText}>{question?.title}</Text>
       <TouchableOpacity style={styles.button}>
@@ -33,6 +37,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: '33%',
     paddingHorizontal: '5%'
+  },
+  editIconContainer: {
+    position: 'absolute',
+    top: 25,
+    right: 25,
+  },
+  editIcon: {
+    color: 'white',
   },
   titleText: {
     fontSize: 22,
