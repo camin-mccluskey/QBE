@@ -4,10 +4,9 @@ import QuestionList from '../components/QuestionList';
 
 import { View } from '../components/Themed';
 import { QuestionContextProvider } from '../store/QuestionContext';
-import { RootTabScreenProps } from '../types';
 
 
-export default function QuestionsScreen({ navigation }: RootTabScreenProps<'Questions'>) {
+export default function QuestionsScreen() {
   return (
     <QuestionContextProvider>
       <View style={styles.container}>

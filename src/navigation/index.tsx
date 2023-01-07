@@ -17,7 +17,7 @@ import NewQuestionScreen from '../screens/NewQuestionScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
 import QuestionsScreen from '../screens/QuestionsScreen'
 import StatsScreen from '../screens/StatsScreen'
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types'
+import { RootStackParamList, RootTabParamList } from '../types'
 import LinkingConfiguration from './LinkingConfiguration'
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -71,10 +71,10 @@ function BottomTabNavigator() {
         component={
           QuestionsScreen
         }
-        options={({ navigation }: RootTabScreenProps<'Questions'>) => ({
+        options={{
           title: 'Questions',
           tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
-        })}
+        }}
       />
       <BottomTab.Screen
         name='NewQuestion'
