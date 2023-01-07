@@ -25,7 +25,8 @@ export default function QuestionCreator() {
     if (questionInvalid) {
       dispatch({ type: 'DELETED_QUESTION', payload: draftQuestion });
     } else {
-      dispatch({ type: 'CREATED_OR_EDITED_QUESTION', payload: draftQuestion });
+      const fullQuestionTitle = `Will you ${draftQuestion.title}?`
+      dispatch({ type: 'CREATED_OR_EDITED_QUESTION', payload: {...draftQuestion, title: fullQuestionTitle}});
     }
   }, [draftQuestion]);
 
