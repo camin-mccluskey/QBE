@@ -5,13 +5,13 @@ type Action = { type: 'CREATED_QUESTION'; payload: Question } | { type: 'DELETED
 type Dispatch = (action: Action) => void;
 type State = Question[];
 
-type Question = {
+export type Question = {
   id: string;
   title: string;
   schedule: QuestionSchedule;
 };
 
-type QuestionSchedule = {
+export type QuestionSchedule = {
   days: number[];
   time: Date;
 }
@@ -67,4 +67,21 @@ function questionsReducer(state: State, action: Action) {
   }
 }
 
-const initialQuestions: State = [];
+const initialQuestions: State = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'Will you work out today?',
+    schedule: {
+      days: [0, 1, 2, 3, 4, 5, 6],
+      time: new Date('2020-12-01T12:00:00.000Z'),
+    }
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv',
+    title: 'Will you create content today?',
+    schedule: {
+      days: [0, 2, 4, 6],
+      time: new Date('2020-12-01T12:00:00.000Z'),
+    }
+  },
+];

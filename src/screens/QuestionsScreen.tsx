@@ -1,14 +1,19 @@
-import { StyleSheet } from 'react-native'
+import Constants from 'expo-constants';
+import { StyleSheet } from 'react-native';
+import QuestionList from '../components/QuestionList';
 
-import { Text, View } from '../components/Themed'
-import { RootTabScreenProps } from '../types'
+import { View } from '../components/Themed';
+import { QuestionContextProvider } from '../store/QuestionContext';
+import { RootTabScreenProps } from '../types';
+
 
 export default function QuestionsScreen({ navigation }: RootTabScreenProps<'Questions'>) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Question Screen</Text>
-      <View style={styles.separator} lightColor='#eee' darkColor='rgba(255,255,255,0.1)' />
-    </View>
+    <QuestionContextProvider>
+      <View style={styles.container}>
+        <QuestionList />
+      </View>
+    </QuestionContextProvider>
   )
 }
 
@@ -16,15 +21,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    paddingTop: Constants.statusBarHeight,
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    width: '100%',
   },
 })

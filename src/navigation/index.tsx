@@ -68,7 +68,9 @@ function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name='Questions'
-        component={QuestionsScreen}
+        component={
+          QuestionsScreen
+        }
         options={({ navigation }: RootTabScreenProps<'Questions'>) => ({
           title: 'Questions',
           tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
@@ -76,7 +78,9 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name='NewQuestion'
-        component={NewQuestionScreen}
+        component={
+          NewQuestionScreen
+        }
         options={{
           title: 'New Question',
           tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
@@ -84,7 +88,9 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name='Stats'
-        component={StatsScreen}
+        component={
+          StatsScreen
+        }
         options={{
           title: 'Stats',
           tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
