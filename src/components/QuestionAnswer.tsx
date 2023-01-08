@@ -1,12 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useRef, useState } from 'react';
-import { Button, Dimensions, LayoutAnimation, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { Question, QuestionSchedule } from '../store/QuestionContext';
-import StreakDisplay from './StreakDisplay';
-import ConfettiCannon from 'react-native-confetti-cannon';
 import { StatusBar } from 'expo-status-bar';
-import DatetimePicker from './DatetimePicker';
+import React, { useRef, useState } from 'react';
+import { Button, Dimensions, LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ConfettiCannon from 'react-native-confetti-cannon';
+import { Question } from '../store/QuestionContext';
 import QuestionCreator from './QuestionCreator';
+import StreakDisplay from './StreakDisplay';
 
 type QuestionAnswerProps = {
   question: Question;

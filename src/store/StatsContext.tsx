@@ -1,19 +1,22 @@
 import { createContext, useContext, useReducer } from 'react';
 
 type StatsContextProviderProps = { children: React.ReactNode };
-type Action = { type: 'ANSWERED_QUESTION'; payload: StatLog };
-type Dispatch = (action: Action) => void;
-type State = StatLog[];
+type StatsAction = { type: 'ANSWERED_QUESTION'; payload: QuestionStat };
+type StatsDispatch = (action: StatsAction) => void;
+type StatsState = QuestionStat[];
 
-// todo - solidify type
-type StatLog = {
-  id: string;
+export type QuestionStat = {
   questionId: string;
-  saidYes: boolean;
+  logEntries: LogEntry[];
 };
 
-const StatsContext = createContext<State | undefined>(undefined);
-const StatsDispatchContext = createContext<Dispatch | undefined>(undefined);
+export type LogEntry = {
+  date: Date;
+  answer: 'yes' | 'no';
+};
+
+const StatsContext = createContext<StatsState | undefined>(undefined);
+const StatsDispatchContext = createContext<StatsDispatch | undefined>(undefined);
 
 export function StatsContextProvider({ children }: StatsContextProviderProps) {
   const [stats, dispatch] = useReducer(statsReducer, initialStats);
@@ -45,7 +48,7 @@ export function useStatsDispatch() {
   return context;
 }
 
-function statsReducer(state: State, action: Action) {
+function statsReducer(state: StatsState, action: StatsAction) {
   switch (action.type) {
     case 'ANSWERED_QUESTION':
       return [...state, action.payload];
@@ -54,4 +57,4 @@ function statsReducer(state: State, action: Action) {
   }
 }
 
-const initialStats: State = [];
+const initialStats: StatsState = [];
