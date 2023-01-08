@@ -123,5 +123,5 @@ function TabBarIcon(props: {
   style?: any
   size?: number
 }) {
-  return <Ionicons size={props.size || 30} style={[{ marginBottom: -3 }, props.style]} {...props} />
+  return <Ionicons size={props.size || 30} style={[{ marginBottom: -10 }, props.style]} {...props} />
 }
