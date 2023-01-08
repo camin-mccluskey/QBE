@@ -2,44 +2,9 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import Constants from 'expo-constants'
 import { FlatList, StyleSheet } from 'react-native'
 import StatsCard from '../components/StatsCard'
+import { View } from '../components/Themed'
+import { useStats } from '../store/StatsContext'
 
-import { Text, View } from '../components/Themed'
-import { useQuestions } from '../store/QuestionContext'
-import { QuestionStat, useStats } from '../store/StatsContext'
-
-const testData: QuestionStat[] = [
-  {
-    questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv',
-    logEntries: [
-      {
-        date: new Date(),
-        answer: 'yes',
-      },
-      {
-        date: new Date(),
-        answer: 'no',
-      }
-    ]
-  },
-  {
-    questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    logEntries: [
-      {
-        date: new Date(),
-        answer: 'no',
-      }
-    ]
-  },
-  {
-    questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    logEntries: [
-      {
-        date: new Date(),
-        answer: 'no',
-      }
-    ]
-  }
-]
 
 export default function StatsScreen() {
   const stats = useStats();

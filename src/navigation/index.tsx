@@ -3,12 +3,13 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
-import { ColorSchemeName } from 'react-native'
+import { ColorSchemeName, Image } from 'react-native'
+import AddQuestionTabBarBtn from '../components/AddQuestionTabBarBtn'
 
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
@@ -76,7 +77,7 @@ function BottomTabNavigator() {
         }
         options={{
           title: 'Questions',
-          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name='help-outline' color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -86,7 +87,17 @@ function BottomTabNavigator() {
         }
         options={{
           title: 'New Question',
-          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+          tabBarIcon: ({ color }) => (
+            // <Image
+            //   // need to use and add icon here - I'd like to use an icon but alas
+            //   source={require('../assets/images/icon.png')}
+            //   style={{ width: 30, height: 30, tintColor: color }}
+            //   resizeMode='contain'
+            // />
+            <TabBarIcon name='add-outline' color={color} size={60} style={{marginBotton: 0}}/>
+          ),
+          tabBarButton: (props) => <AddQuestionTabBarBtn  {...props} />,
+          tabBarLabel: () => null,
         }}
       />
       <BottomTab.Screen
@@ -96,7 +107,7 @@ function BottomTabNavigator() {
         }
         options={{
           title: 'Stats',
-          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name='stats-chart-outline' color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -107,8 +118,10 @@ function BottomTabNavigator() {
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name']
+  name: React.ComponentProps<typeof Ionicons>['name']
   color: string
+  style?: any
+  size?: number
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />
+  return <Ionicons size={props.size || 30} style={[{ marginBottom: -3 }, props.style]} {...props} />
 }
