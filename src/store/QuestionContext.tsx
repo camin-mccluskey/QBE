@@ -139,5 +139,6 @@ const initialQuestions: QuestionState = [
     logs: [
       { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv', date: new Date('2020-12-01T12:00:00.000Z'), answer: 'yes' },
       { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv', date: new Date('2020-12-03T13:00:00.000Z'), answer: 'no' },
+    ]
   },
 ];

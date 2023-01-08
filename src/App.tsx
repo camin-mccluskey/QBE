@@ -8,7 +8,6 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { QuestionContextProvider } from './store/QuestionContext';
-import { StatsContextProvider } from './store/StatsContext';
 
 const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
@@ -19,14 +18,12 @@ const App: React.FC = () => {
   } else {
     return (
       <QuestionContextProvider>
-        <StatsContextProvider>
           <RootSiblingParent>
             <SafeAreaProvider>
               <Navigation colorScheme={colorScheme} />
               <StatusBar />
             </SafeAreaProvider>
           </RootSiblingParent>
-        </StatsContextProvider>
       </QuestionContextProvider>
     );
   }

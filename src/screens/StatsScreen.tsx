@@ -3,19 +3,19 @@ import Constants from 'expo-constants'
 import { FlatList, StyleSheet } from 'react-native'
 import StatsCard from '../components/StatsCard'
 import { View } from '../components/Themed'
-import { useStats } from '../store/StatsContext'
+import { useQuestions } from '../store/QuestionContext'
 
 
 export default function StatsScreen() {
-  const stats = useStats();
+  const questions = useQuestions();
   const tabBarHeight = useBottomTabBarHeight();
 
   return (
     <FlatList style={[styles.container, {paddingBottom: tabBarHeight + 50}]}  
-      data={stats}
-      renderItem={({item}) => <StatsCard questionStat={item}/>}
+      data={questions}
+      renderItem={({item}) => <StatsCard question={item}/>}
       ItemSeparatorComponent={() => <View style={{height: 20}} />}
-      keyExtractor={(item) => item.questionId}
+      keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
     />   
   )

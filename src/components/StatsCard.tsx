@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { useQuestion } from '../store/QuestionContext';
-import { QuestionStat } from '../store/StatsContext';
+import { Question } from '../store/QuestionContext';
 
-export default function StatsCard({ questionStat }: { questionStat: QuestionStat }) {
-  const question = useQuestion(questionStat.questionId)
+export default function StatsCard({ question }: { question: Question }) {
   return (
     <View style={styles.container}>
       <Text style={styles.questionTitle}>Will you {question?.title}?</Text>
