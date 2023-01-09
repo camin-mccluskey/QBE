@@ -36,11 +36,11 @@ export function ListQuestion( { question }: ListQuestionProps ) {
   return (
       <TouchableHighlight onPress={() => navigation.navigate('QuestionModal', { questionId: question.id})}>
         <View style={styles.listItem}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', backgroundColor: '#1e1e1e'}}>
             <StreakDisplay fontSize={16} streak={6}/>
-            <View>
+            <View style={{backgroundColor: '#1e1e1e'}}>
               <Text style={styles.title}>Will you {title}?</Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', backgroundColor: '#1e1e1e'}}>
                 {activeDays}
               </View>
             </View>
@@ -55,7 +55,7 @@ export function ListQuestion( { question }: ListQuestionProps ) {
 
 export function ListQuestionDelete() {
   return (
-    <View style={[styles.listItem, {backgroundColor: 'red', justifyContent: 'flex-end', alignItems: 'center'}]}>
+    <View style={[styles.listItem, styles.deleteItem]}>
       <Ionicons name="trash" size={24} color="white" />
     </View>
   )
@@ -65,14 +65,11 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 10,
     height: 75,
     width: '100%',
-    marginVertical: 8,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: 'darkgray',
-    shadowColor: 'gray',
+    padding: 5,
+    backgroundColor: '#1e1e1e',
   },
   title: {
     fontSize: 18,
@@ -80,4 +77,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
   },
+  deleteItem: {
+    backgroundColor: 'red',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    opacity: 0.6,
+    paddingRight: '5%',
+  }
 });

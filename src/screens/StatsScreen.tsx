@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight + 36,
-    width: '85%',
+    width: '90%',
     alignSelf: 'center',
   },
 })
