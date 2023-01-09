@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Question } from '../store/QuestionContext'
 
-type Stats = {
+export type Stats = {
   totalYes: number
   totalNo: number
   totalSkipped: number

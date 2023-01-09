@@ -43,7 +43,6 @@ export default function QuestionList() {
         data={questions}
         keyExtractor={item => item.id}
         renderItem={({ item }) => <ListQuestion question={item} /> }
-        // swipeRowStyle={{borderWidth: 1, borderColor: 'transparent', backgroundColor: 'black'}}
         renderHiddenItem={() => <ListQuestionDelete /> }
         ItemSeparatorComponent={() => <View style={{height: 20, width: '100%'}} />}
         recalculateHiddenLayout
