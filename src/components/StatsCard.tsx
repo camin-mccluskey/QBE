@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import useStats from '../hooks/useStats';
 import { Question } from '../store/QuestionContext';
 import ProgressBar from './ProgressBar';
+import StatsCalendar from './StatsCalendar';
 
 export default function StatsCard({ question }: { question: Question }) {
   const stats = useStats(question);
@@ -9,17 +10,8 @@ export default function StatsCard({ question }: { question: Question }) {
     <View style={styles.container}>
       <Text style={styles.questionTitle}>Will you {question?.title}?</Text>
       <View>
-        {/* progress bar */}
         <ProgressBar stats={stats}/>
-        {/* calander view */}
-        <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingVertical: 10}}>
-          {[...Array(31).keys()].map((idx) => (
-            <View 
-              key={idx}
-              style={{width: '12.5%', height: 0, aspectRatio: 1, backgroundColor: 'white', margin: 2, borderRadius: 5}}
-            />
-          ))}
-        </View>
+        <StatsCalendar logs={question.logs} />
       </View>
     </View>
   );
