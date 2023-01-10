@@ -15,7 +15,7 @@ export type QuestionSchedule = {
 export type LogEntry = {
   questionId: string;
   date: Date;
-  answer: 'yes' | 'no';
+  answer: 'yes' | 'no' | 'skip';
 };
 
 export type CreatedOrEditedQuestionAction ={

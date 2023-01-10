@@ -18,26 +18,27 @@ type QuestionAnswerProps = {
 export default function QuestionAnswer({ question, onYes, onNo, onSkip }: QuestionAnswerProps) {
   const confettiRef = useRef<any>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [noConfirmation, setNoConfirmation] = useState(false);
 
-  const layoutAnimationConfig = {
+  const editAnimationConfig = {
     duration: 300,
     create: {
       type: LayoutAnimation.Types.easeInEaseOut,
       property: LayoutAnimation.Properties.scaleXY,
       delay: 150,
     },
-    update: {
-      type: LayoutAnimation.Types.easeInEaseOut, 
+  };
+
+  const noTextAnimationConfig = {
+    duration: 2000,
+    create: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+      property: LayoutAnimation.Properties.scaleXY,
     },
-    // delete: {
-    //   duration: 300,
-    //   type: LayoutAnimation.Types.easeInEaseOut,
-    //   property: LayoutAnimation.Properties.scaleX,
-    // },
   };
 
   const toggleEditing = () => {
-    LayoutAnimation.configureNext(layoutAnimationConfig);
+    LayoutAnimation.configureNext(editAnimationConfig);
     setIsEditing(!isEditing);
   }
 
@@ -48,6 +49,12 @@ export default function QuestionAnswer({ question, onYes, onNo, onSkip }: Questi
 
   const handleNo = () => {
     onNo();
+    LayoutAnimation.configureNext(noTextAnimationConfig);
+    setNoConfirmation(true);
+    setTimeout(() => {
+      LayoutAnimation.configureNext(noTextAnimationConfig);
+      setNoConfirmation(false);
+    }, 1000)
   }
 
   const handleSkip = () => {
@@ -70,7 +77,7 @@ export default function QuestionAnswer({ question, onYes, onNo, onSkip }: Questi
             <Text>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={handleNo}>
-            <Text>No</Text>
+            { noConfirmation ? <Text>👍🏻</Text> : <Text>No</Text> }
           </TouchableOpacity>
           <Button title="remind me later" onPress={handleSkip}/>
           <ConfettiCannon 

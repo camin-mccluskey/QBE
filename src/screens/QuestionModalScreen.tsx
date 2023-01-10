@@ -1,4 +1,4 @@
-import { useQuestion } from '../store/QuestionContext'
+import { LogEntry, useQuestion, useQuestionsDispatch } from '../store/QuestionContext'
 import { RootStackScreenProps } from '../types'
 import QuestionAnswer from '../components/QuestionAnswer'
 
@@ -6,17 +6,23 @@ import QuestionAnswer from '../components/QuestionAnswer'
 
 export default function QuestionModalScreen({ route }: RootStackScreenProps<'QuestionModal'>) {
   const question = useQuestion(route.params.questionId);
+  const dispatch = useQuestionsDispatch();
+
+  const answerQuestion = (answer: LogEntry['answer']) => {
+    if (!question) return;
+    dispatch({type: 'ANSWERED_QUESTION', payload: {questionId: question.id, answer, date: new Date()}})
+  }
 
   const onYes = () => {
-    console.log('yes - persist to db')
+    answerQuestion('yes');
   }
 
   const onNo = () => {
-    console.log('no - persist to db')
+    answerQuestion('no');
   }
 
   const onSkip = () => {
-    console.log('skip - persist to db')
+    answerQuestion('skip');
   }
 
   return (
