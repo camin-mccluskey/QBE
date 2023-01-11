@@ -6,13 +6,13 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import Toast from 'react-native-root-toast';
 import useStats from '../hooks/useStats';
+import useTodayQuestionAns from '../hooks/useTodayQuestionAns';
 import { Answer, Question } from '../store/QuestionContext';
 import QuestionCreator from './QuestionCreator';
 import StreakDisplay from './StreakDisplay';
 
 type QuestionAnswerProps = {
   question: Question;
-  todayAnswer: Answer | null;
   onYes: () => void;
   onNo: () => void;
   onSkip: () => void;
@@ -24,6 +24,7 @@ export default function QuestionAnswer({ question, onYes, onNo, onSkip }: Questi
   const [isEditing, setIsEditing] = useState(false);
   const [noConfirmation, setNoConfirmation] = useState(false);
   const { streak } = useStats(question);
+  const todayAnswer = useTodayQuestionAns(question);
 
   const editAnimationConfig = {
     duration: 300,
@@ -81,10 +82,10 @@ export default function QuestionAnswer({ question, onYes, onNo, onSkip }: Questi
         :
         <>
           <Text style={styles.titleText}>Will you {question?.title}?</Text>
-          <TouchableOpacity style={styles.button} onPress={handleYes}>
+          <TouchableOpacity style={[styles.button, todayAnswer === Answer.YES && styles.disabledButton]} onPress={handleYes} disabled={todayAnswer === Answer.YES}>
             <Text>Yes</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleNo}>
+          <TouchableOpacity style={[styles.button, todayAnswer === Answer.NO && styles.disabledButton]} onPress={handleNo} disabled={todayAnswer === Answer.NO}>
             { noConfirmation ? <Text>👍🏻</Text> : <Text>No</Text> }
           </TouchableOpacity>
           <Button title="remind me later" onPress={handleSkip}/>
@@ -130,5 +131,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     borderRadius: 5,
     marginVertical: 10,
-  }
+  },
+  disabledButton: {
+    opacity: 0.5,
+  },
 })
