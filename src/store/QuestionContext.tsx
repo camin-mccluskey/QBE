@@ -1,4 +1,5 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import useTodayQuestionAns from '../hooks/useTodayQuestionAns';
 
 export type Question = {
@@ -26,6 +27,11 @@ export type LogEntry = {
   answer: Answer;
 };
 
+export type HydrateQuestionsAction = {
+  type: 'HYDRATE_QUESTIONS';
+  payload: Question[];
+}
+
 export type CreatedOrEditedQuestionAction ={
   type: 'CREATED_OR_EDITED_QUESTION';
   payload: Question;
@@ -45,7 +51,10 @@ function isNeverAction(action: never, reducer: string): never {
   throw new Error(`${reducer} received invalid action ${action}`)
 }
 
-type QuestionAction = CreatedOrEditedQuestionAction | DeletedQuestionAction | AnsweredQuestionAction;
+type QuestionAction = HydrateQuestionsAction
+                      | CreatedOrEditedQuestionAction
+                      | DeletedQuestionAction
+                      | AnsweredQuestionAction;
 type QuestionProviderProps = { children: React.ReactNode };
 type QuestionDispatch = (action: QuestionAction) => void;
 type QuestionState = Question[];
@@ -56,6 +65,35 @@ const QuestionsDispatchContext = createContext<QuestionDispatch | undefined>(und
 
 export function QuestionContextProvider({ children }: QuestionProviderProps) {
   const [questions, dispatch] = useReducer(questionsReducer, initialQuestions);
+
+  useEffect(() => {
+    // fetch questions from storage
+    const hydrateQuestions = async () => {
+      try {
+        const state = await AsyncStorage.getItem('@qbe:questions');
+        if (state !== null) {
+          dispatch({type: 'HYDRATE_QUESTIONS', payload: JSON.parse(state)});
+        } else {
+          console.log('No questions found in storage');
+        }
+      } catch (e) {
+        console.warn('Error fetching questions from storage', e);
+      }
+    }
+    hydrateQuestions();
+  }, [])
+
+  useEffect(() => {
+    // save questions to storage
+    const saveQuestions = async () => {
+      try {
+        await AsyncStorage.setItem('@qbe:questions', JSON.stringify(questions));
+      } catch (e) {
+        console.warn('Error saving questions to storage', e);
+      }
+    }
+    saveQuestions();
+  }, [questions])
 
   return (
     <QuestionsContext.Provider value={questions}>
@@ -92,6 +130,8 @@ export function useQuestionsDispatch() {
 
 function questionsReducer(state: QuestionState, action: QuestionAction): QuestionState {
   switch (action.type) {
+    case 'HYDRATE_QUESTIONS':
+      return action.payload;
     case 'CREATED_OR_EDITED_QUESTION': {
       const questionExists = state.some((question) => question.id === action.payload.id);
       if (questionExists) {
@@ -133,29 +173,4 @@ function questionsReducer(state: QuestionState, action: QuestionAction): Questio
   }
 }
 
-const initialQuestions: QuestionState = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'work out today',
-    schedule: {
-      days: [0, 1, 2, 3, 4, 5, 6],
-      time: new Date('2020-12-01T12:00:00.000Z'),
-    },
-    logs: [
-      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', timestamp: new Date('2020-12-01T12:00:00.000Z'), answer: Answer.YES },
-      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', timestamp: new Date('2020-12-02T13:00:00.000Z'), answer: Answer.NO },
-    ]
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv',
-    title: 'create content today',
-    schedule: {
-      days: [0, 2, 4, 6],
-      time: new Date('2020-12-01T12:00:00.000Z'),
-    },
-    logs: [
-      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv', timestamp: new Date('2020-12-01T12:00:00.000Z'), answer: Answer.YES },
-      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv', timestamp: new Date('2020-12-03T13:00:00.000Z'), answer: Answer.NO },
-    ]
-  },
-];
+const initialQuestions: QuestionState = [];
