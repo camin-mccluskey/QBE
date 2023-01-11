@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   daySelectionContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '80%',
+    width: '100%',
     padding: 5,
   }
 })

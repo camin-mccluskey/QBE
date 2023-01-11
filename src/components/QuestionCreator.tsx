@@ -1,11 +1,11 @@
 import { useIsFocused } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import Toast from 'react-native-root-toast';
 import { exampleQuestionTitles } from '../constants/ExampleQuestions';
 import useUuid from '../hooks/useUuid';
 import { Question, QuestionSchedule, useQuestionsDispatch } from '../store/QuestionContext';
 import DatetimePicker from './DatetimePicker';
-import Toast from 'react-native-root-toast';
 
 type QuestionCreatorProps = {
   question?: Question;
@@ -99,12 +99,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     flexWrap: 'wrap',
+    width: '100%',
   },
   title: {
     fontSize: 24,
     color: 'white',
     fontWeight: 'bold',
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   input: {
     borderBottomColor: 'gray',
@@ -112,8 +113,8 @@ const styles = StyleSheet.create({
     color: 'blue',
     fontWeight: 'bold',
     fontSize: 24,
-    minWidth: 200,
-    maxWidth: 200,
+    minWidth: 250,
+    maxWidth: 250,
   },
   daySelection: {
     width: 30,
@@ -124,6 +125,5 @@ const styles = StyleSheet.create({
   daySelectionContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '75%',
   }
 })
