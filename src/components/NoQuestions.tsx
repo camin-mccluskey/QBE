@@ -1,9 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Animated } from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 
 
-export default function EmptyQuestionList() {
+export default function NoQuestions() {
   const bounceAnim = useRef(new Animated.Value(0)).current;
 
   const bounce = () => {

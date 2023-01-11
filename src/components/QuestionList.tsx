@@ -1,11 +1,9 @@
 import Constants from 'expo-constants';
 import { LayoutAnimation, StyleSheet, View } from 'react-native';
-import { Text } from '../components/Themed';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { useQuestions, useQuestionsDispatch } from '../store/QuestionContext';
+import NoQuestions from './NoQuestions';
 import { ListQuestion, ListQuestionDelete } from './ListQuestion';
-import { Ionicons } from '@expo/vector-icons';
-import EmptyQuestionList from './EmptyQuestionList';
 
 export default function QuestionList() {
   const questions = useQuestions();
@@ -34,7 +32,7 @@ export default function QuestionList() {
   return (
     <View style={styles.container}>
       {questions.length === 0 && (
-        <EmptyQuestionList />
+        <NoQuestions />
       )}
       <SwipeListView
         useFlatList={true}
