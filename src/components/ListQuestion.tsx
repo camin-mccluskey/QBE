@@ -4,6 +4,7 @@ import { StyleSheet, TouchableHighlight } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { DAYMAP } from '../constants/DayMap';
+import useStats from '../hooks/useStats';
 import { Question } from '../store/QuestionContext';
 import StreakDisplay from './StreakDisplay';
 
@@ -15,6 +16,7 @@ export function ListQuestion( { question }: ListQuestionProps ) {
   const { title, schedule } = question;
   const { days } = schedule;
   const navigation = useNavigation();
+  const { streak } = useStats(question);
 
   const activeDays = Object.entries(DAYMAP).map(([k, dayLetter]) => {
     const key = parseInt(k);
@@ -37,7 +39,7 @@ export function ListQuestion( { question }: ListQuestionProps ) {
       <TouchableHighlight onPress={() => navigation.navigate('QuestionModal', { questionId: question.id})}>
         <View style={styles.listItem}>
           <View style={{flexDirection: 'row', backgroundColor: '#1e1e1e'}}>
-            <StreakDisplay fontSize={16} streak={6}/>
+            <StreakDisplay fontSize={16} streak={streak}/>
             <View style={{backgroundColor: '#1e1e1e'}}>
               <Text style={styles.title}>Will you {title}?</Text>
               <View style={{flexDirection: 'row', backgroundColor: '#1e1e1e'}}>

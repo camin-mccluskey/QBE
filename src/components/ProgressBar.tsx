@@ -12,8 +12,8 @@ export default function ProgressBar({ stats }: { stats: Stats }) {
   return (
     <View style={styles.container}>
       <View style={{flex: yesFraction || 0, backgroundColor: 'green', borderTopLeftRadius: 5, borderBottomLeftRadius: 5}}></View>
-      <View style={{flex: noFraction || 0, backgroundColor: 'gray'}}></View>
-      <View style={{flex: skippedFraction || 0, backgroundColor: 'red', borderTopRightRadius: 5, borderBottomRightRadius: 5}}></View>
+      <View style={{flex: skippedFraction || 0, backgroundColor: 'gray'}}></View>
+      <View style={{flex: noFraction || 0, backgroundColor: 'red', borderTopRightRadius: 5, borderBottomRightRadius: 5}}></View>
     </View>
   )
 }

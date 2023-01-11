@@ -5,20 +5,21 @@ export type Stats = {
   totalYes: number
   totalNo: number
   totalSkipped: number
+  streak: number
 }
 
 export default function useStats(question: Question) {
-  const [stats, setStats] = useState<Stats>({ totalYes: 0, totalNo: 0, totalSkipped: 0 })
+  const [stats, setStats] = useState<Stats>({ totalYes: 0, totalNo: 0, totalSkipped: 0, streak: 0 })
 
   useEffect(() => {
     const computedStats = question.logs.reduce<Stats>(
       (acc, logEvent) => ({
         totalYes: acc.totalYes + (logEvent.answer === 'yes' ? 1 : 0),
         totalNo: acc.totalNo + (logEvent.answer === 'no' ? 1 : 0),
-        // need to implement this in the LogEvent type
-        totalSkipped: acc.totalSkipped,
+        totalSkipped: acc.totalSkipped + (logEvent.answer === 'skip' ? 1 : 0),
+        streak: logEvent.answer === 'yes' ? acc.streak + 1 : 0,
       }),
-      { totalYes: 0, totalNo: 0, totalSkipped: 0 },
+      { totalYes: 0, totalNo: 0, totalSkipped: 0, streak: 0 },
     )
     setStats(computedStats)
   }, [question])

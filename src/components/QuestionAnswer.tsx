@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState } from 'react';
 import { Button, Dimensions, LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import useStats from '../hooks/useStats';
 import { Question } from '../store/QuestionContext';
 import QuestionCreator from './QuestionCreator';
 import StreakDisplay from './StreakDisplay';
@@ -19,6 +20,7 @@ export default function QuestionAnswer({ question, onYes, onNo, onSkip }: Questi
   const confettiRef = useRef<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [noConfirmation, setNoConfirmation] = useState(false);
+  const { streak } = useStats(question);
 
   const editAnimationConfig = {
     duration: 300,
@@ -64,9 +66,9 @@ export default function QuestionAnswer({ question, onYes, onNo, onSkip }: Questi
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.editIconContainer} onPress={toggleEditing}>
-        <Ionicons name="pencil-outline" size={26} style={[styles.editIcon, isEditing ? {color: 'blue'}: {}]} />
+        <Ionicons name="pencil-outline" size={26} style={[styles.editIcon, isEditing && {color: 'blue'}]} />
       </TouchableOpacity>
-      <StreakDisplay fontSize={50} streak={5} />
+      <StreakDisplay fontSize={50} streak={streak} />
       
       { isEditing ?
         <QuestionCreator question={question}/>     

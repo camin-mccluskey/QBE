@@ -35,6 +35,7 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-animate-number-renewed": "^1.0.3",
     "react-native-confetti-cannon": "^1.5.2",
     "react-native-modal-datetime-picker": "^14.0.1",
     "react-native-root-toast": "^3.3.1",

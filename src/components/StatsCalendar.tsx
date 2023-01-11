@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { LogEntry } from '../store/QuestionContext';
 
@@ -20,7 +19,7 @@ export default function StatsCalendar({ logs }: { logs: LogEntry[] }) {
   )
 }
 
-const DayEntry = ({ key, log }: { key: number, log?: LogEntry }) => {
+const DayEntry = ({ log }: { log?: LogEntry }) => {
   let style = {backgroundColor: 'white'};
   
   if (log?.answer == 'yes') {
@@ -32,8 +31,7 @@ const DayEntry = ({ key, log }: { key: number, log?: LogEntry }) => {
   }
   
   return (
-    // todo - return when we have locked in what answers can be
-    <View key={key} style={[styles.dayEntry, style]}/>
+    <View style={[styles.dayEntry, style]}/>
   )
 }
 
