@@ -54,9 +54,9 @@ const DayPicker = ({ days, onEditDays }: { days: number[], onEditDays: (selected
             <TouchableOpacity 
               onPress={() => onPressDay(key)}
               key={key}
-              style={[styles.daySelection, days.includes(key) ? {backgroundColor: 'blue'} : {backgroundColor: 'gray'}]}
+              style={[styles.daySelectionBox, days.includes(key) ? {backgroundColor: 'blue'} : {backgroundColor: 'gray'}]}
             >
-              <Text style={{color: 'white', fontWeight: 'bold'}}>{dayLetter}</Text>
+              <Text style={styles.daySelectionText}>{dayLetter}</Text>
             </TouchableOpacity>
           )
         })
@@ -99,12 +99,18 @@ const TimePicker = ({ time, onEditDatetime }: { time: Date, onEditDatetime: (new
 }
 
 const styles = StyleSheet.create({
-  daySelection: {
+  daySelectionBox: {
     width: 35,
     height: 35,
     borderRadius: 5,
+    fontSize: 24,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  daySelectionText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   daySelectionContainer: {
     flexDirection: 'row',

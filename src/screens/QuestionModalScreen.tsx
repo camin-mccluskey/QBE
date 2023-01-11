@@ -1,5 +1,5 @@
 import QuestionAnswer from '../components/QuestionAnswer';
-import { LogEntry, useQuestion, useQuestionsDispatch } from '../store/QuestionContext';
+import { Answer, LogEntry, useQuestion, useQuestionsDispatch } from '../store/QuestionContext';
 import { RootStackScreenProps } from '../types';
 
 
@@ -14,15 +14,15 @@ export default function QuestionModalScreen({ route }: RootStackScreenProps<'Que
   }
 
   const onYes = () => {
-    answerQuestion('yes');
+    answerQuestion(Answer.YES);
   }
 
   const onNo = () => {
-    answerQuestion('no');
+    answerQuestion(Answer.NO);
   }
 
   const onSkip = () => {
-    answerQuestion('skip');
+    answerQuestion(Answer.SKIP);
   }
 
   return (

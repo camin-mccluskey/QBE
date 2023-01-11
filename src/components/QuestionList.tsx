@@ -5,6 +5,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { useQuestions, useQuestionsDispatch } from '../store/QuestionContext';
 import { ListQuestion, ListQuestionDelete } from './ListQuestion';
 import { Ionicons } from '@expo/vector-icons';
+import EmptyQuestionList from './EmptyQuestionList';
 
 export default function QuestionList() {
   const questions = useQuestions();
@@ -33,10 +34,7 @@ export default function QuestionList() {
   return (
     <View style={styles.container}>
       {questions.length === 0 && (
-        <View style={{height: '100%', justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 22}}>add a question</Text>
-          <Ionicons name="ios-add-circle-outline" size={50} color="white" />
-        </View>
+        <EmptyQuestionList />
       )}
       <SwipeListView
         useFlatList={true}

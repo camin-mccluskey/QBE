@@ -13,10 +13,16 @@ export type QuestionSchedule = {
   time: Date;
 };
 
+export enum Answer {
+  YES = 'yes',
+  NO = 'no',
+  SKIP = 'skip',
+}
+
 export type LogEntry = {
   questionId: string;
   timestamp: Date;
-  answer: 'yes' | 'no' | 'skip';
+  answer: Answer;
 };
 
 export type CreatedOrEditedQuestionAction ={
@@ -126,8 +132,8 @@ const initialQuestions: QuestionState = [
       time: new Date('2020-12-01T12:00:00.000Z'),
     },
     logs: [
-      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', timestamp: new Date('2020-12-01T12:00:00.000Z'), answer: 'yes' },
-      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', timestamp: new Date('2020-12-02T13:00:00.000Z'), answer: 'no' },
+      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', timestamp: new Date('2020-12-01T12:00:00.000Z'), answer: Answer.YES },
+      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', timestamp: new Date('2020-12-02T13:00:00.000Z'), answer: Answer.NO },
     ]
   },
   {
@@ -138,8 +144,8 @@ const initialQuestions: QuestionState = [
       time: new Date('2020-12-01T12:00:00.000Z'),
     },
     logs: [
-      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv', timestamp: new Date('2020-12-01T12:00:00.000Z'), answer: 'yes' },
-      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv', timestamp: new Date('2020-12-03T13:00:00.000Z'), answer: 'no' },
+      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv', timestamp: new Date('2020-12-01T12:00:00.000Z'), answer: Answer.YES },
+      { questionId: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bv', timestamp: new Date('2020-12-03T13:00:00.000Z'), answer: Answer.NO },
     ]
   },
 ];

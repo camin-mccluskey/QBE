@@ -6,12 +6,13 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import Toast from 'react-native-root-toast';
 import useStats from '../hooks/useStats';
-import { Question } from '../store/QuestionContext';
+import { Answer, Question } from '../store/QuestionContext';
 import QuestionCreator from './QuestionCreator';
 import StreakDisplay from './StreakDisplay';
 
 type QuestionAnswerProps = {
   question: Question;
+  todayAnswer: Answer | null;
   onYes: () => void;
   onNo: () => void;
   onSkip: () => void;
