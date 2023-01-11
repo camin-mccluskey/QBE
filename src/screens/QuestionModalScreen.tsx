@@ -1,6 +1,6 @@
-import { LogEntry, useQuestion, useQuestionsDispatch } from '../store/QuestionContext'
-import { RootStackScreenProps } from '../types'
-import QuestionAnswer from '../components/QuestionAnswer'
+import QuestionAnswer from '../components/QuestionAnswer';
+import { LogEntry, useQuestion, useQuestionsDispatch } from '../store/QuestionContext';
+import { RootStackScreenProps } from '../types';
 
 
 
@@ -10,7 +10,7 @@ export default function QuestionModalScreen({ route }: RootStackScreenProps<'Que
 
   const answerQuestion = (answer: LogEntry['answer']) => {
     if (!question) return;
-    dispatch({type: 'ANSWERED_QUESTION', payload: {questionId: question.id, answer, date: new Date()}})
+    dispatch({type: 'ANSWERED_QUESTION', payload: {questionId: question.id, answer, timestamp: new Date()}})
   }
 
   const onYes = () => {
