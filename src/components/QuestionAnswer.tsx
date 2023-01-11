@@ -3,6 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState } from 'react';
 import { Button, Dimensions, LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import { RootSiblingParent } from 'react-native-root-siblings';
+import Toast from 'react-native-root-toast';
 import useStats from '../hooks/useStats';
 import { Question } from '../store/QuestionContext';
 import QuestionCreator from './QuestionCreator';
@@ -60,15 +62,18 @@ export default function QuestionAnswer({ question, onYes, onNo, onSkip }: Questi
   }
 
   const handleSkip = () => {
-    onSkip();
+    Toast.show('Scheduled reminder for 1hr', { duration: Toast.durations.SHORT, position: 60 });
+    // onSkip();
   }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.editIconContainer} onPress={toggleEditing}>
-        <Ionicons name="pencil-outline" size={26} style={[styles.editIcon, isEditing && {color: 'blue'}]} />
-      </TouchableOpacity>
-      <StreakDisplay fontSize={50} streak={streak} />
+      <RootSiblingParent>
+        <TouchableOpacity style={styles.editIconContainer} onPress={toggleEditing}>
+          <Ionicons name="pencil-outline" size={26} style={[styles.editIcon, isEditing && {color: 'blue'}]} />
+        </TouchableOpacity>
+        <StreakDisplay fontSize={50} streak={streak} />
+      </RootSiblingParent>
       
       { isEditing ?
         <QuestionCreator question={question}/>     

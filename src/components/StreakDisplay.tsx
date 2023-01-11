@@ -1,4 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import AnimateNumber from 'react-native-animate-number-renewed';
 
 

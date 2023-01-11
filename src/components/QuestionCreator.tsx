@@ -89,7 +89,8 @@ function genNewDraftQuestion(): Question {
     schedule: {
       days: [],
       time: new Date(),
-    }
+    },
+    logs: [],
   }
 }
 
