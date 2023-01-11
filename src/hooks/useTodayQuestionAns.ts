@@ -1,14 +1,11 @@
-import { useMemo } from 'react'
 import { Question, LogEntry, Answer } from '../store/QuestionContext'
 
 export default function useTodayQuestionAns(question: Question): Answer | null {
-  return useMemo(() => {
-    const lastLogEntry = question?.logs.at(-1) || null;
-    if (lastLogEntry && isLogFromToday(lastLogEntry)) {
-      return lastLogEntry.answer;
-    }
-    return null;
-  }, [question])
+  const lastLogEntry = question?.logs.at(-1) || null;
+  if (lastLogEntry && isLogFromToday(lastLogEntry)) {
+    return lastLogEntry.answer;
+  }
+  return null;
 }
 
 const isLogFromToday = (log: LogEntry) => {

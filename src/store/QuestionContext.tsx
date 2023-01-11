@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer } from 'react';
+import useTodayQuestionAns from '../hooks/useTodayQuestionAns';
 
 export type Question = {
   id: string;
@@ -106,6 +107,15 @@ function questionsReducer(state: QuestionState, action: QuestionAction): Questio
     case 'ANSWERED_QUESTION':
       return state.map((question) => {
         if (question.id === action.payload.questionId) {
+          const todayQuestionAns = useTodayQuestionAns(question);
+          if (todayQuestionAns) {
+            return {
+              ...question,
+              // replace last log entry with payload
+              logs: question.logs.slice(0, -1).concat(action.payload)
+            }
+          }
+          // no log entry for today, add new log entry
           return {
             ...question,
             logs: [
