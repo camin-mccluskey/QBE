@@ -74,6 +74,7 @@ export function QuestionContextProvider({ children }: QuestionProviderProps) {
         const state = await AsyncStorage.getItem('@qbe:questions');
         if (state !== null) {
           dispatch({type: 'HYDRATE_QUESTIONS', payload: JSON.parse(state, reviveDate)});
+          // should any questions be "answered" as skipped?
         } else {
           console.log('No questions found in storage');
         }

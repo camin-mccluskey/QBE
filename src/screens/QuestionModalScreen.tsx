@@ -21,11 +21,7 @@ export default function QuestionModalScreen({ route }: RootStackScreenProps<'Que
     answerQuestion(Answer.NO);
   }
 
-  const onSkip = () => {
-    answerQuestion(Answer.SKIP);
-  }
-
   return (
-    question && <QuestionAnswer question={question} onYes={onYes} onNo={onNo} onSkip={onSkip} />
+    question && <QuestionAnswer question={question} onYes={onYes} onNo={onNo} />
   )
 }

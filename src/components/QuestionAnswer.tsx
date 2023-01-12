@@ -15,11 +15,10 @@ type QuestionAnswerProps = {
   question: Question;
   onYes: () => void;
   onNo: () => void;
-  onSkip: () => void;
 };
 
 
-export default function QuestionAnswer({ question, onYes, onNo, onSkip }: QuestionAnswerProps) {
+export default function QuestionAnswer({ question, onYes, onNo }: QuestionAnswerProps) {
   const confettiRef = useRef<any>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [noConfirmation, setNoConfirmation] = useState(false);
@@ -65,7 +64,7 @@ export default function QuestionAnswer({ question, onYes, onNo, onSkip }: Questi
 
   const handleSkip = () => {
     Toast.show('Scheduled reminder for 1hr', { duration: Toast.durations.SHORT, position: 60 });
-    // onSkip();
+    // todo - schedule reminder
   }
 
   return (
