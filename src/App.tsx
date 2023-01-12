@@ -9,6 +9,7 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { QuestionContextProvider } from './store/QuestionContext';
+import DismissKeyboard from './components/DismissKeyboard';
 
 if (
   Platform.OS === 'android' &&
@@ -27,10 +28,12 @@ const App: React.FC = () => {
     return (
       <QuestionContextProvider>
           <RootSiblingParent>
-            <SafeAreaProvider>
-              <Navigation colorScheme={colorScheme} />
-              <StatusBar />
-            </SafeAreaProvider>
+            <DismissKeyboard>
+              <SafeAreaProvider>
+                <Navigation colorScheme={colorScheme} />
+                <StatusBar />
+              </SafeAreaProvider>
+            </DismissKeyboard>
           </RootSiblingParent>
       </QuestionContextProvider>
     );

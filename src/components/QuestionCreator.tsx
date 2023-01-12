@@ -20,7 +20,6 @@ export default function QuestionCreator({ question }: QuestionCreatorProps) {
   const questionInvalid = draftQuestion?.title === '' || draftQuestion?.schedule === null;
   
   useEffect(() => {
-    console.log(draftQuestion?.title)
     if (!draftQuestion) {
       setDraftQuestion(genNewDraftQuestion());
       setPlaceholder(getExamplePlaceholder());
@@ -82,7 +81,6 @@ export default function QuestionCreator({ question }: QuestionCreatorProps) {
 }
 
 function genNewDraftQuestion(): Question {
-  console.log('generating new draft question')
   return {
     id: useUuid(),
     title: '',
