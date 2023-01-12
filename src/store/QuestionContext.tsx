@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useTodayQuestionAns from '../hooks/useTodayQuestionAns';
+import reviveDate from '../utils/reviveDate';
 
 export type Question = {
   id: string;
@@ -72,7 +73,7 @@ export function QuestionContextProvider({ children }: QuestionProviderProps) {
       try {
         const state = await AsyncStorage.getItem('@qbe:questions');
         if (state !== null) {
-          dispatch({type: 'HYDRATE_QUESTIONS', payload: JSON.parse(state)});
+          dispatch({type: 'HYDRATE_QUESTIONS', payload: JSON.parse(state, reviveDate)});
         } else {
           console.log('No questions found in storage');
         }
