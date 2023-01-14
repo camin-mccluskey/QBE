@@ -8,26 +8,27 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
-import { ColorSchemeName, Image } from 'react-native'
+import { ColorSchemeName } from 'react-native'
 import AddQuestionTabBarBtn from '../components/AddQuestionTabBarBtn'
 
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
 import NewQuestionScreen from '../screens/NewQuestionScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
+import Onboarding from '../screens/Onboarding'
 import QuestionModalScreen from '../screens/QuestionModalScreen'
 import QuestionsScreen from '../screens/QuestionsScreen'
 import StatsScreen from '../screens/StatsScreen'
 import { RootStackParamList, RootTabParamList } from '../types'
 import LinkingConfiguration from './LinkingConfiguration'
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({ colorScheme, userOnboarded }: { colorScheme: ColorSchemeName, userOnboarded: boolean }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
-      <RootNavigator />
+      <RootNavigator userOnboarded={userOnboarded} />
     </NavigationContainer>
   )
 }
@@ -38,9 +39,14 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  */
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
-function RootNavigator() {
+function RootNavigator({ userOnboarded }: { userOnboarded: boolean}) {
   return (
     <Stack.Navigator>
+      {
+        !userOnboarded && (
+          <Stack.Screen name='Onboarding' component={Onboarding} options={{ headerShown: false }} />
+        )
+      }
       <Stack.Screen name='Root' component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

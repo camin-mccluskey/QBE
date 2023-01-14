@@ -16,6 +16,7 @@ declare global {
 }
 
 export type RootStackParamList = {
+  Onboarding: undefined;
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   QuestionModal: { questionId: string };
   NotFound: undefined;

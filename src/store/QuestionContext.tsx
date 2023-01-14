@@ -11,6 +11,7 @@ export type Question = {
 };
 
 export type QuestionSchedule = {
+  // 0 is Sunday, 6 is Saturday
   days: number[];
   // we only pay attention to the time of day for the schedule
   time: Date;
@@ -67,21 +68,32 @@ const QuestionsDispatchContext = createContext<QuestionDispatch | undefined>(und
 export function QuestionContextProvider({ children }: QuestionProviderProps) {
   const [questions, dispatch] = useReducer(questionsReducer, initialQuestions);
 
+  const maybeEmitSkipLog = (question: Question) => {
+    // should have a log entry for every day in the schedule
+    // is this expensive to go back through all the logs? We actually only need to go from the date of the last log entry
+    // to the current date
+    const today = new Date();
+    const lastLogDate = question.logs.at(-1)?.timestamp;
+    // if (lastLogDate && lastLogDate) {}
+  }
+
+  const hydrateQuestions = async () => {
+    try {
+      const state = await AsyncStorage.getItem('@qbe:questions');
+      if (state !== null) {
+        dispatch({type: 'HYDRATE_QUESTIONS', payload: JSON.parse(state, reviveDate)});
+        // should any questions be "answered" as skipped?
+        questions.forEach(question => maybeEmitSkipLog(question));
+      } else {
+        console.log('No questions found in storage');
+      }
+    } catch (e) {
+      console.warn('Error fetching questions from storage', e);
+    }
+  }
+
   useEffect(() => {
     // fetch questions from storage
-    const hydrateQuestions = async () => {
-      try {
-        const state = await AsyncStorage.getItem('@qbe:questions');
-        if (state !== null) {
-          dispatch({type: 'HYDRATE_QUESTIONS', payload: JSON.parse(state, reviveDate)});
-          // should any questions be "answered" as skipped?
-        } else {
-          console.log('No questions found in storage');
-        }
-      } catch (e) {
-        console.warn('Error fetching questions from storage', e);
-      }
-    }
     hydrateQuestions();
   }, [])
 

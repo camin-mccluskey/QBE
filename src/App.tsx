@@ -10,6 +10,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { QuestionContextProvider } from './store/QuestionContext';
 import DismissKeyboard from './components/DismissKeyboard';
+import useUserOnboarded from './hooks/useUserOnboarded';
 
 if (
   Platform.OS === 'android' &&
@@ -20,6 +21,7 @@ if (
 
 const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
+  const [isUserOnboarded] = useUserOnboarded();
   const colorScheme = useColorScheme();
 
   if (!isLoadingComplete) {
@@ -30,7 +32,7 @@ const App: React.FC = () => {
           <RootSiblingParent>
             <DismissKeyboard>
               <SafeAreaProvider>
-                <Navigation colorScheme={colorScheme} />
+                <Navigation colorScheme={colorScheme} userOnboarded={isUserOnboarded}/>
                 <StatusBar />
               </SafeAreaProvider>
             </DismissKeyboard>
