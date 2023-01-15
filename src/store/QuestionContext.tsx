@@ -70,9 +70,7 @@ export function QuestionContextProvider({ children }: QuestionProviderProps) {
   const [questions, dispatch] = useReducer(questionsReducer, initialQuestions);
 
   const dispatchSkipLogs = (question: Question) => {
-    // const today = new Date();
-    // todo - remove after test
-    const today = new Date(2023, 0, 22, 12, 9, 0, 0);
+    const today = new Date();
     const lastLogDate = question.logs.at(-1)?.timestamp || question.createdAt;
     // we don't want to skip the question if it could be answered today - i.e. time schdule isn't important
     const lastLogDateMidnight = new Date(
@@ -83,9 +81,7 @@ export function QuestionContextProvider({ children }: QuestionProviderProps) {
     );
     for (let t = lastLogDateMidnight; t < today; t.setDate(t.getDate() + 1)) {
       if (question.schedule.days.includes(t.getDay())) {
-        console.log('emitting skip log for question', question.id)
-        console.log('skip is for date', t)
-        // dispatch({type: 'ANSWERED_QUESTION', payload: {questionId: question.id, timestamp: t, answer: Answer.SKIP}})
+        dispatch({type: 'ANSWERED_QUESTION', payload: {questionId: question.id, timestamp: t, answer: Answer.SKIP}})
       }
     }
   }
