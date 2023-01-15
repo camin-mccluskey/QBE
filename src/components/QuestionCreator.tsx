@@ -89,6 +89,7 @@ function genNewDraftQuestion(): Question {
       time: new Date(),
     },
     logs: [],
+    createdAt: new Date(),
   }
 }
 
