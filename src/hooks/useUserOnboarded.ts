@@ -6,7 +6,7 @@ export default function useOnboarded(): [boolean, (state: boolean) => void] {
 
   useEffect(() => {
     AsyncStorage.getItem('@qbe:onboarded')
-      .then((state) => setOnboardedState(state !== null))
+      .then((state) => setOnboardedState(state === 'true'))
       .catch((e) => console.warn('Error fetching onboarded from storage', e))
   }, [])
 

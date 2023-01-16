@@ -1,7 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useTodayQuestionAns from '../hooks/useTodayQuestionAns';
 import reviveDate from '../utils/reviveDate';
+import useReducerWithMiddleware from '../hooks/useReducerWithMiddleware';
+import logger from './middleware/logger';
+import notifications from './middleware/notifications';
 
 export type Question = {
   id: string;
@@ -9,6 +12,7 @@ export type Question = {
   schedule: QuestionSchedule;
   logs: LogEntry[];
   createdAt: Date;
+  notificationIds: string[];
 };
 
 export type QuestionSchedule = {
@@ -54,21 +58,27 @@ function isNeverAction(action: never, reducer: string): never {
   throw new Error(`${reducer} received invalid action ${action}`)
 }
 
-type QuestionAction = HydrateQuestionsAction
+export type QuestionAction = HydrateQuestionsAction
                       | CreatedOrEditedQuestionAction
                       | DeletedQuestionAction
                       | AnsweredQuestionAction;
+export type QuestionState = Question[];
+
 type QuestionProviderProps = { children: React.ReactNode };
 type QuestionDispatch = (action: QuestionAction) => void;
-type QuestionState = Question[];
 
 
 const QuestionsContext = createContext<QuestionState | undefined>(undefined);
 const QuestionsDispatchContext = createContext<QuestionDispatch | undefined>(undefined);
 
 export function QuestionContextProvider({ children }: QuestionProviderProps) {
-  const [questions, dispatch] = useReducer(questionsReducer, initialQuestions);
+  const [questions, dispatch] = useReducerWithMiddleware(questionsReducer, initialQuestions, [notifications], [logger]);
 
+  /**
+   * Dispatches a question log entry for each day that the question should have been answered but wasn't
+   * @param question Question to dispatch logs for
+   * @returns void
+   */
   const dispatchSkipLogs = (question: Question) => {
     const today = new Date();
     const lastLogDate = question.logs.at(-1)?.timestamp || question.createdAt;
@@ -90,7 +100,7 @@ export function QuestionContextProvider({ children }: QuestionProviderProps) {
     try {
       const state = await AsyncStorage.getItem('@qbe:questions');
       if (state !== null) {
-        const parsedQuestions = JSON.parse(state, reviveDate);
+        const parsedQuestions: QuestionState = JSON.parse(state, reviveDate);
         dispatch({type: 'HYDRATE_QUESTIONS', payload: parsedQuestions});
         // should any questions be "answered" as skipped?
         parsedQuestions.forEach(dispatchSkipLogs);
@@ -103,8 +113,6 @@ export function QuestionContextProvider({ children }: QuestionProviderProps) {
   }
 
   useEffect(() => {
-    // fetch questions from storage
-    console.log('hydrating questions')
     hydrateQuestions();
   }, [])
 

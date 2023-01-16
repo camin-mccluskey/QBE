@@ -90,6 +90,7 @@ function genNewDraftQuestion(): Question {
     },
     logs: [],
     createdAt: new Date(),
+    notificationIds: []
   }
 }
 
