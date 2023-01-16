@@ -20,7 +20,6 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   QuestionModal: { questionId: string };
   NotFound: undefined;
-  ScheduledAnswer: undefined
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
