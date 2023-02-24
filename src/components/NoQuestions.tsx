@@ -32,7 +32,7 @@ export default function NoQuestions() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>add a question for yourself</Text>
+      <Text style={styles.text}>add a question</Text>
       <Animated.View style={{transform: [{translateY: bounceAnim}]}}>
         <Ionicons name="arrow-down-outline" size={50} color='white' />
       </Animated.View>
