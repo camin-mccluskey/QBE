@@ -1,58 +1,44 @@
-import { useIsFocused } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import Toast from 'react-native-root-toast';
-import { exampleQuestionTitles } from '../constants/ExampleQuestions';
-import useUuid from '../hooks/useUuid';
-import { Question, QuestionSchedule, useQuestionsDispatch } from '../store/QuestionContext';
-import DatetimePicker from './DatetimePicker';
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { useEffect, useState } from 'react'
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { exampleQuestionTitles } from '../constants/ExampleQuestions'
+import useUuid from '../hooks/useUuid'
+import { Question, QuestionSchedule, useQuestionsDispatch } from '../store/QuestionContext'
+import DatetimePicker from './DatetimePicker'
 
 type QuestionCreatorProps = {
-  question?: Question;
+  question?: Question
 }
 
 export default function QuestionCreator({ question }: QuestionCreatorProps) {
   const [draftQuestion, setDraftQuestion] = useState<Question | undefined>(question)
   const [placeholder, setPlaceholder] = useState<string>('')
-  const isFocused = useIsFocused();
   const dispatch = useQuestionsDispatch()
+  const navigation = useNavigation()
 
-  const questionInvalid = draftQuestion?.title === '' || draftQuestion?.schedule === null;
-  
+  const questionInvalid = draftQuestion?.title === '' || draftQuestion?.schedule.days.length === 0
+
   useEffect(() => {
     if (!draftQuestion) {
-      setDraftQuestion(genNewDraftQuestion());
-      setPlaceholder(getExamplePlaceholder());
+      setDraftQuestion(genNewDraftQuestion())
+      setPlaceholder(getExamplePlaceholder())
     }
   }, [])
 
-  useEffect(() => {
-    if (!draftQuestion) return
-    if (questionInvalid) {
-      dispatch({ type: 'DELETED_QUESTION', payload: draftQuestion });
-    } else {
-      dispatch({ type: 'CREATED_OR_EDITED_QUESTION', payload: draftQuestion});
-    }
-  }, [draftQuestion]);
-
-  useEffect(() => {
-    // user navigated away from this screen
-    if (!isFocused) {
-      if (!questionInvalid) {
-        Toast.show('question saved', { duration: Toast.durations.SHORT, position: 60 })
-      }
-      setDraftQuestion(genNewDraftQuestion());
-    }
-  }, [isFocused]);
-
   const editQuestionTitle = (title: string) => {
     if (!draftQuestion) return
-    setDraftQuestion({...draftQuestion, title})
+    setDraftQuestion({ ...draftQuestion, title })
   }
 
   const editQuestionSchedule = (schedule: QuestionSchedule) => {
     if (!draftQuestion) return
-    setDraftQuestion({...draftQuestion, schedule})
+    setDraftQuestion({ ...draftQuestion, schedule })
+  }
+
+  const saveQuestion = () => {
+    if (!draftQuestion || questionInvalid) return
+    dispatch({ type: 'CREATED_OR_EDITED_QUESTION', payload: draftQuestion })
+    navigation.navigate('Root', { screen: 'Questions' })
   }
 
   const getExamplePlaceholder = () => {
@@ -72,9 +58,19 @@ export default function QuestionCreator({ question }: QuestionCreatorProps) {
         />
         <Text style={styles.title}>?</Text>
       </View>
-      <View style={{alignItems: 'center', paddingTop: 40}}>
-        <Text style={{fontSize: 16, color: 'gray'}}>Ask me this question</Text>
-        <DatetimePicker questionSchedule={draftQuestion?.schedule} onEditQuestionSchedule={editQuestionSchedule}/>
+      <View style={{ alignItems: 'center', paddingTop: 40 }}>
+        <Text style={{ fontSize: 16, color: 'gray' }}>Ask me this question</Text>
+        <DatetimePicker
+          questionSchedule={draftQuestion?.schedule}
+          onEditQuestionSchedule={editQuestionSchedule}
+        />
+        <Pressable
+          onPress={saveQuestion}
+          disabled={questionInvalid}
+          style={questionInvalid ? styles.disabledButton : styles.button}
+        >
+          <Text style={styles.buttonText}>Save</Text>
+        </Pressable>
       </View>
     </>
   )
@@ -90,11 +86,28 @@ function genNewDraftQuestion(): Question {
     },
     logs: [],
     createdAt: new Date(),
-    notificationIds: []
+    notificationIds: [],
   }
 }
 
 const styles = StyleSheet.create({
+  disabledButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    backgroundColor: 'gray',
+    marginTop: 20,
+  },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    backgroundColor: 'blue',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+  },
   textContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -125,5 +138,5 @@ const styles = StyleSheet.create({
   daySelectionContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-  }
+  },
 })
