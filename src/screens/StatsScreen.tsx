@@ -6,24 +6,24 @@ import StatsCard from '../components/StatsCard'
 import { View } from '../components/Themed'
 import { useQuestions } from '../store/QuestionContext'
 
-
 export default function StatsScreen() {
-  const questions = useQuestions();
-  const tabBarHeight = useBottomTabBarHeight();
+  const questions = useQuestions()
+  const tabBarHeight = useBottomTabBarHeight()
 
   return (
     <View style={styles.container}>
-    {
-      questions.length === 0 ? <NoQuestions />
-        :
-        <FlatList style={{paddingBottom: tabBarHeight + 50}}  
+      {questions.length === 0 ? (
+        <NoQuestions />
+      ) : (
+        <FlatList
+          style={{ paddingBottom: tabBarHeight + 50 }}
           data={questions}
-          renderItem={({item}) => <StatsCard question={item}/>}
-          ItemSeparatorComponent={() => <View style={{height: 20}} />}
+          renderItem={({ item }) => <StatsCard question={item} />}
+          ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-        />  
-    }
+        />
+      )}
     </View>
   )
 }
